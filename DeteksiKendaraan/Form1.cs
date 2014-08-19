@@ -369,8 +369,8 @@ namespace DeteksiKendaraan
         private void Form1_Load(object sender, EventArgs e)
         {
             Assembly assembly = this.GetType().Assembly;
-            
-            Bitmap image = new Bitmap(System.IO.Path.GetDirectoryName(assembly.Location) + "\\ROI.jpg");
+
+            Bitmap image = new Bitmap(System.IO.Path.GetDirectoryName(assembly.Location) + "\\IMG_20140807_145835_ROI.jpg");
             DeteksiJalan(image);
         }
     }
