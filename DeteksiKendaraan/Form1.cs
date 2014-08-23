@@ -116,6 +116,12 @@ namespace DeteksiKendaraan
             int icr = 1;
             foreach (HoughLine line in lines)
             {
+
+                if (line.Theta > 50 && line.Theta < 130)
+                {
+                    continue;
+                }
+
                 string s = string.Format("Theta = {0}, R = {1}, I = {2} ({3})", line.Theta, line.Radius, line.Intensity, line.RelativeIntensity);
                 System.Diagnostics.Debug.WriteLine(s);
 
@@ -169,18 +175,23 @@ namespace DeteksiKendaraan
                     Color.Red);
                 System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
 
-                if (line.Theta > 25 && line.Theta < 45)
+                if (line.Theta >= 25 && line.Theta <= 45)
                 {
+                    //if (leftLine.Point1 != null) continue;
+
                     leftLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0);
                     leftLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
                 }
-                else if (line.Theta > 160)
+                else if (line.Theta >= 130 && line.Theta <= 155)
                 {
+                    //if (rightLine.Point1 != null) continue;
+
                     rightLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0);
                     rightLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
                 }
 
-                //if (icr == 2)
+
+                //if (icr == 3)
                 //{
                 //    break;
                 //}
@@ -292,8 +303,8 @@ namespace DeteksiKendaraan
                     if (rect.Width > txtMinWidth.Value && rect.Height > txtMinHeight.Value)
                     {
                         Pen pen = new Pen(colorDialog1.Color, float.Parse(txtTebalGaris.Value.ToString()));
-                        float X = (float)pctResult.Width / 400;
-                        float Y = (float)pctResult.Height / 300;
+                        float X = (float)pctResult.Width / 450;
+                        float Y = (float)pctResult.Height / 253;
                         Rectangle newRec = new Rectangle((int)Math.Ceiling(rect.X * X), (int)Math.Ceiling(rect.Y * Y),
                             (int)Math.Ceiling(rect.Width * X), (int)Math.Ceiling(rect.Height * Y));
                         e.Graphics.DrawRectangle(pen, newRec);
@@ -370,7 +381,7 @@ namespace DeteksiKendaraan
         {
             Assembly assembly = this.GetType().Assembly;
             
-            Bitmap image = new Bitmap(System.IO.Path.GetDirectoryName(assembly.Location) + "\\ROI.jpg");
+            Bitmap image = new Bitmap(System.IO.Path.GetDirectoryName(assembly.Location) + "\\ROI_3.jpg");
             DeteksiJalan(image);
         }
     }
