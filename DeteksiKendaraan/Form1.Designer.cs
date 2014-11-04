@@ -31,6 +31,16 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnSaveFile = new System.Windows.Forms.Button();
+            this.txtMinHeight = new System.Windows.Forms.NumericUpDown();
+            this.txtMinWidth = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lblJumlah = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.btnDeteksi = new System.Windows.Forms.Button();
+            this.txtTebalGaris = new System.Windows.Forms.NumericUpDown();
+            this.txtColorPicker = new System.Windows.Forms.Button();
             this.txtColor = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -65,17 +75,11 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.txtColorPicker = new System.Windows.Forms.Button();
-            this.txtTebalGaris = new System.Windows.Forms.NumericUpDown();
-            this.btnDeteksi = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
-            this.lblJumlah = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txtMinWidth = new System.Windows.Forms.NumericUpDown();
-            this.txtMinHeight = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMinHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMinWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTebalGaris)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctResult)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
@@ -89,9 +93,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTebalGaris)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMinWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMinHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -115,6 +116,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnSaveFile);
             this.tabPage1.Controls.Add(this.txtMinHeight);
             this.tabPage1.Controls.Add(this.txtMinWidth);
             this.tabPage1.Controls.Add(this.label16);
@@ -137,6 +139,110 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Result Tab";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveFile
+            // 
+            this.btnSaveFile.Location = new System.Drawing.Point(739, 205);
+            this.btnSaveFile.Name = "btnSaveFile";
+            this.btnSaveFile.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveFile.TabIndex = 28;
+            this.btnSaveFile.Text = "Save";
+            this.btnSaveFile.UseVisualStyleBackColor = true;
+            this.btnSaveFile.Visible = false;
+            this.btnSaveFile.Click += new System.EventHandler(this.btnSaveFile_Click);
+            // 
+            // txtMinHeight
+            // 
+            this.txtMinHeight.Location = new System.Drawing.Point(661, 145);
+            this.txtMinHeight.Name = "txtMinHeight";
+            this.txtMinHeight.Size = new System.Drawing.Size(120, 20);
+            this.txtMinHeight.TabIndex = 27;
+            this.txtMinHeight.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // txtMinWidth
+            // 
+            this.txtMinWidth.Location = new System.Drawing.Point(661, 119);
+            this.txtMinWidth.Name = "txtMinWidth";
+            this.txtMinWidth.Size = new System.Drawing.Size(120, 20);
+            this.txtMinWidth.TabIndex = 26;
+            this.txtMinWidth.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(586, 152);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(64, 13);
+            this.label16.TabIndex = 25;
+            this.label16.Text = "Min Height :";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(586, 126);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(61, 13);
+            this.label15.TabIndex = 24;
+            this.label15.Text = "Min Width :";
+            // 
+            // lblJumlah
+            // 
+            this.lblJumlah.AutoSize = true;
+            this.lblJumlah.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblJumlah.Location = new System.Drawing.Point(675, 279);
+            this.lblJumlah.Name = "lblJumlah";
+            this.lblJumlah.Size = new System.Drawing.Size(30, 31);
+            this.lblJumlah.TabIndex = 23;
+            this.lblJumlah.Text = "0";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(592, 247);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(101, 13);
+            this.label14.TabIndex = 22;
+            this.label14.Text = "Jumlah Kendaraan :";
+            // 
+            // btnDeteksi
+            // 
+            this.btnDeteksi.Location = new System.Drawing.Point(588, 205);
+            this.btnDeteksi.Name = "btnDeteksi";
+            this.btnDeteksi.Size = new System.Drawing.Size(117, 23);
+            this.btnDeteksi.TabIndex = 21;
+            this.btnDeteksi.Text = "Deteksi Kendaraan";
+            this.btnDeteksi.UseVisualStyleBackColor = true;
+            this.btnDeteksi.Click += new System.EventHandler(this.btnDeteksi_Click);
+            // 
+            // txtTebalGaris
+            // 
+            this.txtTebalGaris.Location = new System.Drawing.Point(661, 66);
+            this.txtTebalGaris.Name = "txtTebalGaris";
+            this.txtTebalGaris.Size = new System.Drawing.Size(120, 20);
+            this.txtTebalGaris.TabIndex = 20;
+            this.txtTebalGaris.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // txtColorPicker
+            // 
+            this.txtColorPicker.Location = new System.Drawing.Point(767, 89);
+            this.txtColorPicker.Name = "txtColorPicker";
+            this.txtColorPicker.Size = new System.Drawing.Size(75, 23);
+            this.txtColorPicker.TabIndex = 19;
+            this.txtColorPicker.Text = "Color picker";
+            this.txtColorPicker.UseVisualStyleBackColor = true;
+            this.txtColorPicker.Click += new System.EventHandler(this.txtColorPicker_Click);
             // 
             // txtColor
             // 
@@ -175,9 +281,9 @@
             // pctResult
             // 
             this.pctResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pctResult.Location = new System.Drawing.Point(17, 18);
+            this.pctResult.Location = new System.Drawing.Point(17, 34);
             this.pctResult.Name = "pctResult";
-            this.pctResult.Size = new System.Drawing.Size(550, 413);
+            this.pctResult.Size = new System.Drawing.Size(550, 309);
             this.pctResult.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pctResult.TabIndex = 0;
             this.pctResult.TabStop = false;
@@ -462,99 +568,6 @@
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
-            // txtColorPicker
-            // 
-            this.txtColorPicker.Location = new System.Drawing.Point(767, 89);
-            this.txtColorPicker.Name = "txtColorPicker";
-            this.txtColorPicker.Size = new System.Drawing.Size(75, 23);
-            this.txtColorPicker.TabIndex = 19;
-            this.txtColorPicker.Text = "Color picker";
-            this.txtColorPicker.UseVisualStyleBackColor = true;
-            this.txtColorPicker.Click += new System.EventHandler(this.txtColorPicker_Click);
-            // 
-            // txtTebalGaris
-            // 
-            this.txtTebalGaris.Location = new System.Drawing.Point(661, 66);
-            this.txtTebalGaris.Name = "txtTebalGaris";
-            this.txtTebalGaris.Size = new System.Drawing.Size(120, 20);
-            this.txtTebalGaris.TabIndex = 20;
-            this.txtTebalGaris.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // btnDeteksi
-            // 
-            this.btnDeteksi.Location = new System.Drawing.Point(588, 205);
-            this.btnDeteksi.Name = "btnDeteksi";
-            this.btnDeteksi.Size = new System.Drawing.Size(117, 23);
-            this.btnDeteksi.TabIndex = 21;
-            this.btnDeteksi.Text = "Deteksi Kendaraan";
-            this.btnDeteksi.UseVisualStyleBackColor = true;
-            this.btnDeteksi.Click += new System.EventHandler(this.btnDeteksi_Click);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(592, 247);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(101, 13);
-            this.label14.TabIndex = 22;
-            this.label14.Text = "Jumlah Kendaraan :";
-            // 
-            // lblJumlah
-            // 
-            this.lblJumlah.AutoSize = true;
-            this.lblJumlah.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblJumlah.Location = new System.Drawing.Point(675, 279);
-            this.lblJumlah.Name = "lblJumlah";
-            this.lblJumlah.Size = new System.Drawing.Size(30, 31);
-            this.lblJumlah.TabIndex = 23;
-            this.lblJumlah.Text = "0";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(586, 126);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(61, 13);
-            this.label15.TabIndex = 24;
-            this.label15.Text = "Min Width :";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(586, 152);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(64, 13);
-            this.label16.TabIndex = 25;
-            this.label16.Text = "Min Height :";
-            // 
-            // txtMinWidth
-            // 
-            this.txtMinWidth.Location = new System.Drawing.Point(661, 119);
-            this.txtMinWidth.Name = "txtMinWidth";
-            this.txtMinWidth.Size = new System.Drawing.Size(120, 20);
-            this.txtMinWidth.TabIndex = 26;
-            this.txtMinWidth.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // txtMinHeight
-            // 
-            this.txtMinHeight.Location = new System.Drawing.Point(661, 145);
-            this.txtMinHeight.Name = "txtMinHeight";
-            this.txtMinHeight.Size = new System.Drawing.Size(120, 20);
-            this.txtMinHeight.TabIndex = 27;
-            this.txtMinHeight.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -570,6 +583,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMinHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtMinWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtTebalGaris)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctResult)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
@@ -585,9 +601,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTebalGaris)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMinWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMinHeight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -641,6 +654,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.NumericUpDown txtMinHeight;
         private System.Windows.Forms.NumericUpDown txtMinWidth;
+        private System.Windows.Forms.Button btnSaveFile;
     }
 }
 
