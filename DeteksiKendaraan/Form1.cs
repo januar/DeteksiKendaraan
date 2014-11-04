@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 using AForge;
 using AForge.Imaging;
@@ -41,6 +42,7 @@ namespace DeteksiKendaraan
             InitializeComponent();
             txtFilename.Text = "";
             colorDialog1.Color = Color.Red;
+            openFileDialog1.FileName = "";
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -97,8 +99,8 @@ namespace DeteksiKendaraan
         private Bitmap HoughTransformation(Bitmap image, Bitmap originalImage)
         {
             HoughLineTransformation houghLineTransform = new HoughLineTransformation();
-            PointLine leftLine = new PointLine();
-            PointLine rightLine = new PointLine();
+            PointLine leftLine = null;
+            PointLine rightLine = null;
 
             Bitmap temp = AForge.Imaging.Image.Clone(image, PixelFormat.Format24bppRgb);
             /// lock the source image
@@ -175,27 +177,26 @@ namespace DeteksiKendaraan
                     Color.Red);
                 System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
 
-                if (line.Theta >= 25 && line.Theta <= 45)
+                if (line.Theta > 25 && line.Theta < 36)
                 {
-                    //if (leftLine.Point1 != null) continue;
-
+                    if (leftLine != null) continue;
+                    leftLine = new PointLine();
                     leftLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0);
                     leftLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
                 }
-                else if (line.Theta >= 130 && line.Theta <= 155)
+                else if (line.Theta > 130)
                 {
-                    //if (rightLine.Point1 != null) continue;
-
-                    rightLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0);
+                    if (rightLine != null) continue;
+                    rightLine = new PointLine();
+                    rightLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0 +10);
                     rightLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
                 }
 
-
-                //if (icr == 3)
-                //{
-                //    break;
-                //}
-                //icr++;
+                if (icr == 5)
+                {
+                    break;
+                }
+                icr++;
             }
 
             System.Diagnostics.Debug.WriteLine("Found lines: " + houghLineTransform.LinesCount);
@@ -248,31 +249,31 @@ namespace DeteksiKendaraan
                     int blue = roiPixel.B - ujiPixel.B;
 
                     //sw.Write("(" + red + "," + green + "," + blue + ");");
-                    if (red <= 0)
+                    if (red < 20)
                     {
                         red = 0;
                     }
                     else
                     {
-                        red = red + 10;
+                        red = red + 30;
                     }
 
-                    if (green <= 0)
+                    if (green < 20)
                     {
                         green = 0;
                     }
                     else
                     {
-                        green = green + 10;
+                        green = green + 30;
                     }
 
-                    if (blue <= 0)
+                    if (blue < 20)
                     {
                         blue = 0;
                     }
                     else
                     {
-                        blue = blue + 10;
+                        blue = blue + 30;
                     }
 
                     newColor = Color.FromArgb(red, green, blue);
@@ -296,24 +297,108 @@ namespace DeteksiKendaraan
                 BlobCounter bc = (BlobCounter)cclFilter.BlobCounter;
                 //bc.ProcessImage(morfologi);
                 Rectangle[] rects = bc.GetObjectsRectangles();
+                List<Rectangle> evaluation = new List<Rectangle>();
                 int jumlah = 0;
 
                 foreach (Rectangle rect in rects)
                 {
                     if (rect.Width > txtMinWidth.Value && rect.Height > txtMinHeight.Value)
                     {
-                        Pen pen = new Pen(colorDialog1.Color, float.Parse(txtTebalGaris.Value.ToString()));
-                        float X = (float)pctResult.Width / 450;
-                        float Y = (float)pctResult.Height / 253;
-                        Rectangle newRec = new Rectangle((int)Math.Ceiling(rect.X * X), (int)Math.Ceiling(rect.Y * Y),
-                            (int)Math.Ceiling(rect.Width * X), (int)Math.Ceiling(rect.Height * Y));
-                        e.Graphics.DrawRectangle(pen, newRec);
-                        jumlah++;
+                        bool cek1 = false;
+                        bool cek2 = true;
+                        int index = 0;
+                        foreach (Rectangle recEva in evaluation)
+                        {
+                            if (recEva.Contains(rect))
+                            {
+                                cek2 = false;
+                                break;
+                            }
+                            if (rect.Contains(recEva))
+                            {
+                                cek1 = true;
+                                cek2 = false;
+                                break;
+                            }
+                            index++;
+                        }
+
+                        if (cek1)
+                        {
+                            evaluation[index] = rect;
+                        }
+                        else if (cek2)
+                        {
+                            evaluation.Add(rect);
+                        }
                     }
                 }
 
+                evaluation = EvaluationNear(evaluation);
+
+                foreach (Rectangle rect in evaluation)
+                {
+                    Pen pen = new Pen(colorDialog1.Color, float.Parse(txtTebalGaris.Value.ToString()));
+                    float X = (float)pctResult.Width / 450;
+                    float Y = (float)pctResult.Height / 253;
+                    Rectangle newRec = new Rectangle((int)Math.Ceiling(rect.X * X), (int)Math.Ceiling(rect.Y * Y),
+                        (int)Math.Ceiling(rect.Width * X), (int)Math.Ceiling(rect.Height * Y));
+                    e.Graphics.DrawRectangle(pen, newRec);
+                    jumlah++;
+                }
                 lblJumlah.Text = jumlah.ToString();
             }
+        }
+
+        private List<Rectangle> EvaluationNear(List<Rectangle> rect)
+        {
+            List<Rectangle> result = new List<Rectangle>();
+            int c = 5;
+
+            foreach (Rectangle item1 in rect)
+            {
+                bool add = true;
+                bool check1 = false;
+                int index = 0;
+
+                foreach (Rectangle item2 in result)
+                {
+
+                    //check kanan dari object yg sudah disimpan
+                    if (item2.X < item1.X)
+                    {
+                        if (new Rectangle(item2.X - c, item2.Y - c, item2.Width + 2*c, item2.Height + 2*c).Contains(item1.X, item1.Y))
+                        {
+                            add = false;
+                            check1 = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if( new Rectangle(item1.X - c, item1.Y - c, item1.Width + c, item1.Height+c).Contains(item2.X, item2.Y + item2.Height))
+                        {
+                            add = false;
+                            check1 = true;
+                            break;
+                        }
+                    }
+                    index++;
+                }
+
+                if (check1)
+                {
+                    Rectangle temp = new Rectangle(result[index].X, result[index].Y, (item1.X - result[index].X) + item1.Width, (item1.Y - result[index].Y) + item1.Height);
+                    result[index] = temp;
+                }
+                else if (add)
+                {
+                    result.Add(item1);
+                }
+
+            }
+
+            return result;
         }
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -380,9 +465,59 @@ namespace DeteksiKendaraan
         private void Form1_Load(object sender, EventArgs e)
         {
             Assembly assembly = this.GetType().Assembly;
-            
             Bitmap image = new Bitmap(System.IO.Path.GetDirectoryName(assembly.Location) + "\\ROI_3.jpg");
             DeteksiJalan(image);
+        }
+
+
+        private void changeResolution()
+        {
+            string path = "D:\\Kerjaan\\Skripsi\\Ari Usman\\Bahan Penelitian\\Gatot Subroto";
+            List<string> filename = new List<string>();
+            DirectoryInfo decInfo = new DirectoryInfo(path);
+            foreach (FileInfo file in decInfo.GetFiles())
+            {
+                if(file.Extension == ".jpg")
+                {
+                    if (File.Exists(path + "\\compress\\" + file.Name))
+                        continue;
+
+                    System.Drawing.Image img = System.Drawing.Image.FromFile(file.FullName);
+                    Bitmap result = new Bitmap(450, 253);
+                    result.SetResolution(img.HorizontalResolution, img.VerticalResolution);
+                    using (Graphics g = Graphics.FromImage(result))
+                    {
+                        g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                        g.DrawImage(img, 0, 0, result.Width, result.Height);
+                    }
+
+                    result.Save(path + "\\compress\\" + file.Name, ImageFormat.Jpeg);
+                }
+            }
+        }
+
+        private void btnSaveFile_Click(object sender, EventArgs e)
+        {
+            string path = "D:\\Kerjaan\\Skripsi\\Ari Usman\\Bahan Penelitian\\Gatot Subroto\\compress\\true\\";
+            FileInfo fileInfo = new FileInfo(openFileDialog1.FileName);
+            if (!File.Exists(path + fileInfo.Name))
+            {
+                System.Drawing.Image img = System.Drawing.Image.FromFile(fileInfo.FullName);
+                Bitmap result = new Bitmap(450, 253);
+                result.SetResolution(img.HorizontalResolution, img.VerticalResolution);
+                using (Graphics g = Graphics.FromImage(result))
+                {
+                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.DrawImage(img, 0, 0, result.Width, result.Height);
+                }
+
+                result.Save(path + fileInfo.Name, ImageFormat.Jpeg);
+            }
+            MessageBox.Show("Success", "Information", MessageBoxButtons.OK);
         }
     }
 }
