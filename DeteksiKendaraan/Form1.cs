@@ -332,6 +332,7 @@ namespace DeteksiKendaraan
                             evaluation.Add(rect);
                         }
                     }
+                    //evaluation.Add(rect);
                 }
 
                 evaluation = EvaluationNear(evaluation);
