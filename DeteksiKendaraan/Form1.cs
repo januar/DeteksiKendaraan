@@ -50,7 +50,7 @@ namespace DeteksiKendaraan
             openFileDialog1.FileName = "";
 
             Assembly assembly = this.GetType().Assembly;
-            Vlc.DotNet.Core.Medias.MediaBase media = new Vlc.DotNet.Core.Medias.PathMedia(System.IO.Path.GetDirectoryName(assembly.Location) + @"\20140822_083239.mp4");
+            Vlc.DotNet.Core.Medias.MediaBase media = new Vlc.DotNet.Core.Medias.PathMedia(System.IO.Path.GetDirectoryName(assembly.Location) + @"\data\20140822_083239.mp4");
             videoPlayer.Media = media;
         }
 
@@ -493,7 +493,7 @@ namespace DeteksiKendaraan
         private void Form1_Load(object sender, EventArgs e)
         {
             Assembly assembly = this.GetType().Assembly;
-            Bitmap image = new Bitmap(System.IO.Path.GetDirectoryName(assembly.Location) + "\\ROI_3.jpg");
+            Bitmap image = new Bitmap(System.IO.Path.GetDirectoryName(assembly.Location) + "\\data\\ROI_3.jpg");
             DeteksiJalan(image);
         }
 
