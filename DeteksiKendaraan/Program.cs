@@ -20,8 +20,8 @@ namespace DeteksiKendaraan
             //Set libvlc.dll and libvlccore.dll directory path
             VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_X86;
             //Set the vlc plugins directory path
-            //VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_X86;
-            VlcContext.LibVlcPluginsPath = Application.StartupPath + "\\plugins";
+            VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_X86;
+            //VlcContext.LibVlcPluginsPath = Application.StartupPath + "\\plugins";
 
             //Set the startup options
             VlcContext.StartupOptions.IgnoreConfig = true;
