@@ -31,22 +31,16 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnCapture = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnSaveFile = new System.Windows.Forms.Button();
             this.txtMinHeight = new System.Windows.Forms.NumericUpDown();
             this.txtMinWidth = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.lblJumlah = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.btnDeteksi = new System.Windows.Forms.Button();
-            this.txtTebalGaris = new System.Windows.Forms.NumericUpDown();
-            this.txtColorPicker = new System.Windows.Forms.Button();
-            this.txtColor = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtFilename = new System.Windows.Forms.TextBox();
             this.pctResult = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.videoPlayer = new Vlc.DotNet.Forms.VlcControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -74,12 +68,12 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.rdbManual = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTebalGaris)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctResult)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
@@ -111,38 +105,54 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1059, 468);
+            this.tabControl1.Size = new System.Drawing.Size(1059, 573);
             this.tabControl1.TabIndex = 12;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.radioButton1);
+            this.tabPage1.Controls.Add(this.rdbManual);
+            this.tabPage1.Controls.Add(this.btnCapture);
+            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.btnSaveFile);
             this.tabPage1.Controls.Add(this.txtMinHeight);
             this.tabPage1.Controls.Add(this.txtMinWidth);
             this.tabPage1.Controls.Add(this.label16);
             this.tabPage1.Controls.Add(this.label15);
-            this.tabPage1.Controls.Add(this.lblJumlah);
-            this.tabPage1.Controls.Add(this.label14);
             this.tabPage1.Controls.Add(this.btnDeteksi);
-            this.tabPage1.Controls.Add(this.txtTebalGaris);
-            this.tabPage1.Controls.Add(this.txtColorPicker);
-            this.tabPage1.Controls.Add(this.txtColor);
-            this.tabPage1.Controls.Add(this.label13);
-            this.tabPage1.Controls.Add(this.label12);
-            this.tabPage1.Controls.Add(this.txtFilename);
             this.tabPage1.Controls.Add(this.pctResult);
-            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.videoPlayer);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1051, 442);
+            this.tabPage1.Size = new System.Drawing.Size(1051, 547);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Result Tab";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btnCapture
+            // 
+            this.btnCapture.Enabled = false;
+            this.btnCapture.Location = new System.Drawing.Point(217, 479);
+            this.btnCapture.Name = "btnCapture";
+            this.btnCapture.Size = new System.Drawing.Size(95, 23);
+            this.btnCapture.TabIndex = 31;
+            this.btnCapture.Text = "Ambil Gambar";
+            this.btnCapture.UseVisualStyleBackColor = true;
+            this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Video";
+            // 
             // btnSaveFile
             // 
-            this.btnSaveFile.Location = new System.Drawing.Point(739, 205);
+            this.btnSaveFile.Location = new System.Drawing.Point(360, 479);
             this.btnSaveFile.Name = "btnSaveFile";
             this.btnSaveFile.Size = new System.Drawing.Size(75, 23);
             this.btnSaveFile.TabIndex = 28;
@@ -153,7 +163,7 @@
             // 
             // txtMinHeight
             // 
-            this.txtMinHeight.Location = new System.Drawing.Point(661, 145);
+            this.txtMinHeight.Location = new System.Drawing.Point(90, 438);
             this.txtMinHeight.Name = "txtMinHeight";
             this.txtMinHeight.Size = new System.Drawing.Size(120, 20);
             this.txtMinHeight.TabIndex = 27;
@@ -165,7 +175,7 @@
             // 
             // txtMinWidth
             // 
-            this.txtMinWidth.Location = new System.Drawing.Point(661, 119);
+            this.txtMinWidth.Location = new System.Drawing.Point(90, 412);
             this.txtMinWidth.Name = "txtMinWidth";
             this.txtMinWidth.Size = new System.Drawing.Size(120, 20);
             this.txtMinWidth.TabIndex = 26;
@@ -178,7 +188,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(586, 152);
+            this.label16.Location = new System.Drawing.Point(15, 445);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(64, 13);
             this.label16.TabIndex = 25;
@@ -187,116 +197,41 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(586, 126);
+            this.label15.Location = new System.Drawing.Point(15, 419);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(61, 13);
             this.label15.TabIndex = 24;
             this.label15.Text = "Min Width :";
             // 
-            // lblJumlah
-            // 
-            this.lblJumlah.AutoSize = true;
-            this.lblJumlah.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblJumlah.Location = new System.Drawing.Point(675, 279);
-            this.lblJumlah.Name = "lblJumlah";
-            this.lblJumlah.Size = new System.Drawing.Size(30, 31);
-            this.lblJumlah.TabIndex = 23;
-            this.lblJumlah.Text = "0";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(592, 247);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(101, 13);
-            this.label14.TabIndex = 22;
-            this.label14.Text = "Jumlah Kendaraan :";
-            // 
             // btnDeteksi
             // 
-            this.btnDeteksi.Location = new System.Drawing.Point(588, 205);
+            this.btnDeteksi.Location = new System.Drawing.Point(18, 479);
             this.btnDeteksi.Name = "btnDeteksi";
             this.btnDeteksi.Size = new System.Drawing.Size(117, 23);
             this.btnDeteksi.TabIndex = 21;
-            this.btnDeteksi.Text = "Deteksi Kendaraan";
+            this.btnDeteksi.Text = "Mulai Simulasi";
             this.btnDeteksi.UseVisualStyleBackColor = true;
             this.btnDeteksi.Click += new System.EventHandler(this.btnDeteksi_Click);
-            // 
-            // txtTebalGaris
-            // 
-            this.txtTebalGaris.Location = new System.Drawing.Point(661, 66);
-            this.txtTebalGaris.Name = "txtTebalGaris";
-            this.txtTebalGaris.Size = new System.Drawing.Size(120, 20);
-            this.txtTebalGaris.TabIndex = 20;
-            this.txtTebalGaris.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // txtColorPicker
-            // 
-            this.txtColorPicker.Location = new System.Drawing.Point(767, 89);
-            this.txtColorPicker.Name = "txtColorPicker";
-            this.txtColorPicker.Size = new System.Drawing.Size(75, 23);
-            this.txtColorPicker.TabIndex = 19;
-            this.txtColorPicker.Text = "Color picker";
-            this.txtColorPicker.UseVisualStyleBackColor = true;
-            this.txtColorPicker.Click += new System.EventHandler(this.txtColorPicker_Click);
-            // 
-            // txtColor
-            // 
-            this.txtColor.Location = new System.Drawing.Point(661, 91);
-            this.txtColor.Name = "txtColor";
-            this.txtColor.Size = new System.Drawing.Size(100, 20);
-            this.txtColor.TabIndex = 18;
-            this.txtColor.Text = "Red";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(585, 94);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(70, 13);
-            this.label13.TabIndex = 17;
-            this.label13.Text = "Warna garis :";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(585, 68);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 13);
-            this.label12.TabIndex = 16;
-            this.label12.Text = "Tebal garis :";
-            // 
-            // txtFilename
-            // 
-            this.txtFilename.AcceptsReturn = true;
-            this.txtFilename.Location = new System.Drawing.Point(588, 34);
-            this.txtFilename.Name = "txtFilename";
-            this.txtFilename.Size = new System.Drawing.Size(440, 20);
-            this.txtFilename.TabIndex = 15;
             // 
             // pctResult
             // 
             this.pctResult.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pctResult.Location = new System.Drawing.Point(17, 34);
+            this.pctResult.Location = new System.Drawing.Point(545, 36);
             this.pctResult.Name = "pctResult";
-            this.pctResult.Size = new System.Drawing.Size(550, 309);
+            this.pctResult.Size = new System.Drawing.Size(500, 333);
             this.pctResult.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pctResult.TabIndex = 0;
             this.pctResult.TabStop = false;
             this.pctResult.Paint += new System.Windows.Forms.PaintEventHandler(this.pctResult_Paint);
             // 
-            // label1
+            // videoPlayer
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(585, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 13);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "File Citra Uji :";
+            this.videoPlayer.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.videoPlayer.Location = new System.Drawing.Point(17, 36);
+            this.videoPlayer.Name = "videoPlayer";
+            this.videoPlayer.Rate = 0F;
+            this.videoPlayer.Size = new System.Drawing.Size(500, 333);
+            this.videoPlayer.TabIndex = 32;
             // 
             // tabPage2
             // 
@@ -323,7 +258,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1051, 442);
+            this.tabPage2.Size = new System.Drawing.Size(1051, 547);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Process Tab";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -568,11 +503,34 @@
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
+            // rdbManual
+            // 
+            this.rdbManual.AutoSize = true;
+            this.rdbManual.Checked = true;
+            this.rdbManual.Location = new System.Drawing.Point(17, 384);
+            this.rdbManual.Name = "rdbManual";
+            this.rdbManual.Size = new System.Drawing.Size(101, 17);
+            this.rdbManual.TabIndex = 33;
+            this.rdbManual.TabStop = true;
+            this.rdbManual.Text = "Simulasi Manual";
+            this.rdbManual.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(135, 384);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(112, 17);
+            this.radioButton1.TabIndex = 34;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Simulasi Automatis";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 502);
+            this.ClientSize = new System.Drawing.Size(1084, 602);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -585,7 +543,6 @@
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMinWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtTebalGaris)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pctResult)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
@@ -629,7 +586,6 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
@@ -640,21 +596,17 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox txtFilename;
-        private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox txtColor;
-        private System.Windows.Forms.Button txtColorPicker;
         private System.Windows.Forms.Button btnDeteksi;
-        private System.Windows.Forms.NumericUpDown txtTebalGaris;
-        private System.Windows.Forms.Label lblJumlah;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.NumericUpDown txtMinHeight;
         private System.Windows.Forms.NumericUpDown txtMinWidth;
         private System.Windows.Forms.Button btnSaveFile;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnCapture;
+        private Vlc.DotNet.Forms.VlcControl videoPlayer;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rdbManual;
     }
 }
 

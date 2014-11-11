@@ -13,6 +13,8 @@ using AForge.Imaging;
 using AForge.Imaging.Filters;
 using System.Drawing.Imaging;
 using System.Reflection;
+using Vlc.DotNet.Forms;
+using Vlc.DotNet.Core;
 
 namespace DeteksiKendaraan
 {
@@ -25,6 +27,10 @@ namespace DeteksiKendaraan
         Bitmap roiImage;
         Bitmap morfologi;
         ConnectedComponentsLabeling cclFilter;
+
+        int TotalPixel = 0;
+        PointLine leftLine = null;
+        PointLine rightLine = null;
 
         // binarization filtering sequence
         private FiltersSequence filter = new FiltersSequence(
@@ -40,14 +46,17 @@ namespace DeteksiKendaraan
         public Form1()
         {
             InitializeComponent();
-            txtFilename.Text = "";
-            colorDialog1.Color = Color.Red;
+            //txtFilename.Text = "";
             openFileDialog1.FileName = "";
+
+            Assembly assembly = this.GetType().Assembly;
+            Vlc.DotNet.Core.Medias.MediaBase media = new Vlc.DotNet.Core.Medias.PathMedia(System.IO.Path.GetDirectoryName(assembly.Location) + @"\20140822_083239.mp4");
+            videoPlayer.Media = media;
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            txtFilename.Text = openFileDialog1.FileName;
+            //txtFilename.Text = openFileDialog1.FileName;
             pctResult.Image = (Bitmap)Bitmap.FromFile(openFileDialog1.FileName);
             morfologi = null;
         }
@@ -99,8 +108,6 @@ namespace DeteksiKendaraan
         private Bitmap HoughTransformation(Bitmap image, Bitmap originalImage)
         {
             HoughLineTransformation houghLineTransform = new HoughLineTransformation();
-            PointLine leftLine = null;
-            PointLine rightLine = null;
 
             Bitmap temp = AForge.Imaging.Image.Clone(image, PixelFormat.Format24bppRgb);
             /// lock the source image
@@ -214,6 +221,7 @@ namespace DeteksiKendaraan
                         (rightLine.Point1.Y * (rightLine.Point2.X - rightLine.Point1.X) - rightLine.Point1.X * (rightLine.Point2.Y - rightLine.Point1.Y)))
                     {
                         // nothing
+                        TotalPixel++;
                     }
                     else
                     {
@@ -249,36 +257,50 @@ namespace DeteksiKendaraan
                     int blue = roiPixel.B - ujiPixel.B;
 
                     //sw.Write("(" + red + "," + green + "," + blue + ");");
-                    if (red < 20)
+                    if (((y * (leftLine.Point2.X - leftLine.Point1.X) - x * (leftLine.Point2.Y - leftLine.Point1.Y)) >
+                        (leftLine.Point1.Y * (leftLine.Point2.X - leftLine.Point1.X) - leftLine.Point1.X * (leftLine.Point2.Y - leftLine.Point1.Y))) &&
+                        (y * (rightLine.Point2.X - rightLine.Point1.X) - x * (rightLine.Point2.Y - rightLine.Point1.Y)) >
+                        (rightLine.Point1.Y * (rightLine.Point2.X - rightLine.Point1.X) - rightLine.Point1.X * (rightLine.Point2.Y - rightLine.Point1.Y)))
                     {
-                        red = 0;
+                        // nothing
+                        if (red < 0 && red >= -50)
+                        {
+                            red = 0;
+                        }
+                        else
+                        {
+                            red = Math.Abs(red) + 30;
+                            red = (red > 255) ? 255 : red;
+                        }
+
+                        if (green < 0 && green >= -50)
+                        {
+                            green = 0;
+                        }
+                        else
+                        {
+                            green = Math.Abs(green) + 30;
+                            green = (green > 255) ? 255 : green;
+                        }
+
+                        if (blue < 0 && blue >= -50)
+                        {
+                            blue = 0;
+                        }
+                        else
+                        {
+                            blue = Math.Abs(blue) + 30;
+                            blue = (blue > 255) ? 255 : blue;
+                        }
+
+                        newColor = Color.FromArgb(red, green, blue);
+
+                        temp.SetPixel(x, y, newColor);
                     }
                     else
                     {
-                        red = red + 30;
+                        temp.SetPixel(x, y, Color.Black);
                     }
-
-                    if (green < 20)
-                    {
-                        green = 0;
-                    }
-                    else
-                    {
-                        green = green + 30;
-                    }
-
-                    if (blue < 20)
-                    {
-                        blue = 0;
-                    }
-                    else
-                    {
-                        blue = blue + 30;
-                    }
-
-                    newColor = Color.FromArgb(red, green, blue);
-
-                    temp.SetPixel(x, y, newColor);
                 }
                 //sw.WriteLine();
             }
@@ -337,17 +359,22 @@ namespace DeteksiKendaraan
 
                 evaluation = EvaluationNear(evaluation);
 
+                int pixelKendaraan = 0;
                 foreach (Rectangle rect in evaluation)
                 {
-                    Pen pen = new Pen(colorDialog1.Color, float.Parse(txtTebalGaris.Value.ToString()));
+                    Pen pen = new Pen(Color.Red, 5);
                     float X = (float)pctResult.Width / 450;
                     float Y = (float)pctResult.Height / 253;
                     Rectangle newRec = new Rectangle((int)Math.Ceiling(rect.X * X), (int)Math.Ceiling(rect.Y * Y),
                         (int)Math.Ceiling(rect.Width * X), (int)Math.Ceiling(rect.Height * Y));
                     e.Graphics.DrawRectangle(pen, newRec);
+                    pixelKendaraan += (newRec.Width * newRec.Height);
                     jumlah++;
                 }
-                lblJumlah.Text = jumlah.ToString();
+                //lblJumlah.Text = jumlah.ToString();
+                Console.WriteLine(TotalPixel);
+                Console.WriteLine(pixelKendaraan);
+                Console.WriteLine((double)pixelKendaraan / TotalPixel);
             }
         }
 
@@ -420,26 +447,26 @@ namespace DeteksiKendaraan
 
         private void txtColorPicker_Click(object sender, EventArgs e)
         {
-            colorDialog1.Color = Color.FromName(txtColor.Text);
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                txtColor.Text = colorDialog1.Color.Name;
-            }
+            //colorDialog1.Color = Color.FromName(txtColor.Text);
+            //if (colorDialog1.ShowDialog() == DialogResult.OK)
+            //{
+            //    txtColor.Text = colorDialog1.Color.Name;
+            //}
         }
 
         private void btnDeteksi_Click(object sender, EventArgs e)
         {
-            if (txtColor.Text == "")
-            {
-                MessageBox.Show("Warna harus diisi", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //if (txtColor.Text == "")
+            //{
+            //    MessageBox.Show("Warna harus diisi", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
-            if (txtFilename.Text == "")
-            {
-                MessageBox.Show("Citra uji belum dipilih", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //if (txtFilename.Text == "")
+            //{
+            //    MessageBox.Show("Citra uji belum dipilih", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
             /* citra uji */
             Bitmap citraUji = (Bitmap)Bitmap.FromFile(openFileDialog1.FileName);
@@ -519,6 +546,11 @@ namespace DeteksiKendaraan
                 result.Save(path + fileInfo.Name, ImageFormat.Jpeg);
             }
             MessageBox.Show("Success", "Information", MessageBoxButtons.OK);
+        }
+
+        private void btnCapture_Click(object sender, EventArgs e)
+        {
+            videoPlayer.TakeSnapshot("screen_capture.png", 720, 480);
         }
     }
 }
