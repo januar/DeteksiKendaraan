@@ -157,4 +157,4 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 
-/data/*.mp4
+DeteksiKendaraan/data/*.mp4
