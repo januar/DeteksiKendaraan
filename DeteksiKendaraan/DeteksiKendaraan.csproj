@@ -37,6 +37,12 @@
     <Reference Include="AForge">
       <HintPath>lib\AForge.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Controls">
+      <HintPath>lib\AForge.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Fuzzy">
+      <HintPath>lib\AForge.Fuzzy.dll</HintPath>
+    </Reference>
     <Reference Include="AForge.Imaging">
       <HintPath>lib\AForge.Imaging.dll</HintPath>
     </Reference>
@@ -79,6 +85,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FuzzyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FuzzyForm.Designer.cs">
+      <DependentUpon>FuzzyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FuzzyObject.cs" />
     <Compile Include="PointLine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FuzzyForm.resx">
+      <DependentUpon>FuzzyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -123,6 +139,17 @@
     <Content Include="data\ROI_3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="lib\AForge.Controls.dll" />
+    <Content Include="lib\AForge.dll" />
+    <Content Include="lib\AForge.Fuzzy.dll" />
+    <Content Include="lib\AForge.Imaging.dll" />
+    <Content Include="lib\AForge.Imaging.xml" />
+    <Content Include="lib\AForge.Math.dll" />
+    <Content Include="lib\AForge.Math.xml" />
+    <Content Include="lib\AForge.xml" />
+    <Content Include="lib\Vlc.DotNet.Core.dll" />
+    <Content Include="lib\Vlc.DotNet.Core.Interops.dll" />
+    <Content Include="lib\Vlc.DotNet.Forms.dll" />
     <Content Include="plugins\3dnow\libmemcpy3dn_plugin.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
