@@ -317,6 +317,7 @@ namespace DeteksiKendaraan
                 if (!ThreadProcess.IsAlive)
                     ThreadProcess.Start();
             }
+            openFileToolStripMenuItem.Enabled = false;
         }
 
         /*
@@ -347,17 +348,20 @@ namespace DeteksiKendaraan
          * akan dilakukan pengambilan gambar dari video yang diputar oleh player.
          * Gambar tersebut akan dijadikan bitmap yang kemudian akan diproses.
          */
-        private void DeteksiKendaraan()
+        private void DeteksiKendaraan(string filename = "")
         {
-            System.Threading.Thread.Sleep(SleepTime);
-            Assembly assembly = this.GetType().Assembly;
-            string path = System.IO.Path.GetDirectoryName(assembly.Location) + "\\temp\\";
+            if (filename == "")
+            {
+                System.Threading.Thread.Sleep(SleepTime);
+                Assembly assembly = this.GetType().Assembly;
+                string path = System.IO.Path.GetDirectoryName(assembly.Location) + "\\temp\\";
 
-            // melakukan pengambilan gambar pada video yang diputar
-            // file akan disimpan pada folder temp
-            string filename = path + DateTime.Now.ToString("yyyy-MM-dd HH mm ss") + ".png";
-            videoPlayer.TakeSnapshot(filename, 450, 300);
-            System.Threading.Thread.Sleep(1000);
+                // melakukan pengambilan gambar pada video yang diputar
+                // file akan disimpan pada folder temp
+                filename = path + DateTime.Now.ToString("yyyy-MM-dd HH mm ss") + ".png";
+                videoPlayer.TakeSnapshot(filename, 450, 300);
+                System.Threading.Thread.Sleep(1000);
+            }
 
             /* citra uji */
             Bitmap citraUji = (Bitmap)Bitmap.FromFile(filename);
@@ -540,7 +544,6 @@ namespace DeteksiKendaraan
                 FuzzyObject fuzzy = new FuzzyObject();
                 lblSepi.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Sepi", percentage), 2).ToString();
                 lblSedang.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Sedang", percentage),2).ToString();
-                lblRamai.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Ramai", percentage), 2).ToString();
                 lblPadat.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Padat", percentage), 2).ToString();
             }
         }
@@ -618,7 +621,7 @@ namespace DeteksiKendaraan
             btnCapture.Enabled = false;
             btnBerhenti.Enabled = false;
             isAlive = false;
-            
+            openFileToolStripMenuItem.Enabled = true;
             videoPlayer.Pause();
         }
 
@@ -626,6 +629,17 @@ namespace DeteksiKendaraan
         {
             FuzzyForm fuzzyForm = new FuzzyForm();
             fuzzyForm.ShowDialog();
+        }
+
+
+        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            DeteksiKendaraan(openFileDialog1.FileName);
         }
 
         private void btnSaveFile_Click(object sender, EventArgs e)

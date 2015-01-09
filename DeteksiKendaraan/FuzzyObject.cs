@@ -17,26 +17,23 @@ namespace DeteksiKendaraan
         {
             lvKepadatanJalan = new LinguisticVariable("KepadatanJalan", 0, 100);
 
-            TrapezoidalFunction function1 = new TrapezoidalFunction(20, 30, TrapezoidalFunction.EdgeType.Right);
+            TrapezoidalFunction function1 = new TrapezoidalFunction(20, 35, TrapezoidalFunction.EdgeType.Right);
             FuzzySet fsSepi = new FuzzySet("Sepi", function1);
-            TrapezoidalFunction function2 = new TrapezoidalFunction(20, 30, 40, 50);
+            TrapezoidalFunction function2 = new TrapezoidalFunction(20, 35, 50, 65);
             FuzzySet fsSedang = new FuzzySet("Sedang", function2);
-            TrapezoidalFunction function3 = new TrapezoidalFunction(40, 50, 60, 70);
-            FuzzySet fsRamai = new FuzzySet("Ramai", function3);
-            TrapezoidalFunction function4 = new TrapezoidalFunction(60, 70, TrapezoidalFunction.EdgeType.Left);
-            FuzzySet fsPadat = new FuzzySet("Padat", function4);
+            TrapezoidalFunction function3 = new TrapezoidalFunction(65, 80, TrapezoidalFunction.EdgeType.Left);
+            FuzzySet fsPadat = new FuzzySet("Padat", function3);
 
             lvKepadatanJalan.AddLabel(fsSepi);
             lvKepadatanJalan.AddLabel(fsSedang);
-            lvKepadatanJalan.AddLabel(fsRamai);
             lvKepadatanJalan.AddLabel(fsPadat);
         }
 
         public double[][,] GetChartValue()
         {
             // get membership of some points to the cool fuzzy set
-            double[][,] chartValues = new double[4][,];
-            for (int i = 0; i < 4; i++)
+            double[][,] chartValues = new double[3][,];
+            for (int i = 0; i < 3; i++)
                 chartValues[i] = new double[200, 2];
 
             // showing the shape of the linguistic variable - the shape of its labels memberships from start to end
@@ -45,17 +42,14 @@ namespace DeteksiKendaraan
             {
                 double y1 = lvKepadatanJalan.GetLabelMembership("Sepi", x);
                 double y2 = lvKepadatanJalan.GetLabelMembership("Sedang", x);
-                double y3 = lvKepadatanJalan.GetLabelMembership("Ramai", x);
-                double y4 = lvKepadatanJalan.GetLabelMembership("Padat", x);
-                Console.WriteLine(String.Format("x : {0} y1 : {1} y2 : {2} y3 : {3} y4 : {4} j : {5}", x, y1, y2, y3, y4, j));
+                double y3 = lvKepadatanJalan.GetLabelMembership("Padat", x);
+                Console.WriteLine(String.Format("x : {0} y1 : {1} y2 : {2} y3 : {3} j : {4}", x, y1, y2, y3, j));
                 chartValues[0][j, 0] = x;
                 chartValues[0][j, 1] = y1;
                 chartValues[1][j, 0] = x;
                 chartValues[1][j, 1] = y2;
                 chartValues[2][j, 0] = x;
                 chartValues[2][j, 1] = y3;
-                chartValues[3][j, 0] = x;
-                chartValues[3][j, 1] = y4;
             }
 
             return chartValues;
