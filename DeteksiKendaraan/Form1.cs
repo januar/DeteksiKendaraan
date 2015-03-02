@@ -159,12 +159,16 @@ namespace DeteksiKendaraan
             HoughLineTransformation houghLineTransform = new HoughLineTransformation();
 
             Bitmap temp = AForge.Imaging.Image.Clone(image, PixelFormat.Format24bppRgb);
+            Bitmap clone = (Bitmap)temp.Clone();
             /// lock the source image
             BitmapData sourceData = temp.LockBits(
                 new Rectangle(0, 0, temp.Width, temp.Height),
                 ImageLockMode.ReadOnly, temp.PixelFormat);
             // binarize the image
             UnmanagedImage binarySource = filter.Apply(new UnmanagedImage(sourceData));
+            BitmapData cloneSourceData = clone.LockBits(
+                new Rectangle(0, 0, clone.Width, clone.Height),
+                ImageLockMode.ReadOnly, clone.PixelFormat);
             // apply Hough line transofrm
             houghLineTransform.ProcessImage(binarySource);
 
@@ -227,11 +231,18 @@ namespace DeteksiKendaraan
                 }
 
                 // draw line on the image
-                Drawing.Line(sourceData,
-                    new IntPoint((int)x0 + w2, h2 - (int)y0),
-                    new IntPoint((int)x1 + w2, h2 - (int)y1),
-                    Color.Red);
-                System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
+                if (icr <= 5)
+                {
+                    Drawing.Line(sourceData,
+                        new IntPoint((int)x0 + w2, h2 - (int)y0),
+                        new IntPoint((int)x1 + w2, h2 - (int)y1),
+                        Color.Red);
+                    System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
+                }
+                Drawing.Line(cloneSourceData,
+                        new IntPoint((int)x0 + w2, h2 - (int)y0),
+                        new IntPoint((int)x1 + w2, h2 - (int)y1),
+                        Color.Red);
 
                 // menentukan garis tepi yang digunakan pada jalan
                 if (line.Theta > 25 && line.Theta < 36) // garis tepi kiri jalan
@@ -249,11 +260,11 @@ namespace DeteksiKendaraan
                     rightLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
                 }
 
-                if (icr == 5)
-                {
-                    break;
-                }
-                icr++;
+                //if (icr == 5)
+                //{
+                //    break;
+                //}
+                //icr++;
             }
 
             System.Diagnostics.Debug.WriteLine("Found lines: " + houghLineTransform.LinesCount);
@@ -287,6 +298,10 @@ namespace DeteksiKendaraan
             binarySource.Dispose();
             pictureBox4.Image = temp;
 
+            clone.UnlockBits(cloneSourceData);
+            pictureBox11.Image = clone;
+
+
             return roi;
         }
 
@@ -317,6 +332,7 @@ namespace DeteksiKendaraan
                 if (!ThreadProcess.IsAlive)
                     ThreadProcess.Start();
             }
+            openFileToolStripMenuItem.Enabled = false;
         }
 
         /*
@@ -347,17 +363,20 @@ namespace DeteksiKendaraan
          * akan dilakukan pengambilan gambar dari video yang diputar oleh player.
          * Gambar tersebut akan dijadikan bitmap yang kemudian akan diproses.
          */
-        private void DeteksiKendaraan()
+        private void DeteksiKendaraan(string filename = "")
         {
-            System.Threading.Thread.Sleep(SleepTime);
-            Assembly assembly = this.GetType().Assembly;
-            string path = System.IO.Path.GetDirectoryName(assembly.Location) + "\\temp\\";
+            if (filename == "")
+            {
+                System.Threading.Thread.Sleep(SleepTime);
+                Assembly assembly = this.GetType().Assembly;
+                string path = System.IO.Path.GetDirectoryName(assembly.Location) + "\\temp\\";
 
-            // melakukan pengambilan gambar pada video yang diputar
-            // file akan disimpan pada folder temp
-            string filename = path + DateTime.Now.ToString("yyyy-MM-dd HH mm ss") + ".png";
-            videoPlayer.TakeSnapshot(filename, 450, 300);
-            System.Threading.Thread.Sleep(1000);
+                // melakukan pengambilan gambar pada video yang diputar
+                // file akan disimpan pada folder temp
+                filename = path + DateTime.Now.ToString("yyyy-MM-dd HH mm ss") + ".png";
+                videoPlayer.TakeSnapshot(filename, 450, 300);
+                System.Threading.Thread.Sleep(1000);
+            }
 
             /* citra uji */
             Bitmap citraUji = (Bitmap)Bitmap.FromFile(filename);
@@ -540,7 +559,6 @@ namespace DeteksiKendaraan
                 FuzzyObject fuzzy = new FuzzyObject();
                 lblSepi.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Sepi", percentage), 2).ToString();
                 lblSedang.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Sedang", percentage),2).ToString();
-                lblRamai.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Ramai", percentage), 2).ToString();
                 lblPadat.Text = Math.Round(fuzzy.lvKepadatanJalan.GetLabelMembership("Padat", percentage), 2).ToString();
             }
         }
@@ -618,7 +636,7 @@ namespace DeteksiKendaraan
             btnCapture.Enabled = false;
             btnBerhenti.Enabled = false;
             isAlive = false;
-            
+            openFileToolStripMenuItem.Enabled = true;
             videoPlayer.Pause();
         }
 
@@ -626,6 +644,17 @@ namespace DeteksiKendaraan
         {
             FuzzyForm fuzzyForm = new FuzzyForm();
             fuzzyForm.ShowDialog();
+        }
+
+
+        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            DeteksiKendaraan(openFileDialog1.FileName);
         }
 
         private void btnSaveFile_Click(object sender, EventArgs e)

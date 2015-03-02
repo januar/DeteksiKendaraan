@@ -19,7 +19,6 @@ namespace DeteksiKendaraan
             chart.RangeX = new Range(0, 100);
             chart.AddDataSeries("SEPI", Color.CornflowerBlue, Chart.SeriesType.Line, 3, true);
             chart.AddDataSeries("SEDANG", Color.LightBlue, Chart.SeriesType.Line, 3, true);
-            chart.AddDataSeries("RAMAI", Color.LightCoral, Chart.SeriesType.Line, 3, true);
             chart.AddDataSeries("PADAT", Color.Firebrick, Chart.SeriesType.Line, 3, true);
 
             FuzzyObject fuzzy = new FuzzyObject();
@@ -28,8 +27,7 @@ namespace DeteksiKendaraan
             // plot membership to a chart
             chart.UpdateDataSeries("SEPI", chartValues[0]);
             chart.UpdateDataSeries("SEDANG", chartValues[1]);
-            chart.UpdateDataSeries("RAMAI", chartValues[2]);
-            chart.UpdateDataSeries("PADAT", chartValues[3]);
+            chart.UpdateDataSeries("PADAT", chartValues[2]);
         }
     }
 }

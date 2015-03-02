@@ -34,11 +34,9 @@
             this.lblJumlahKendaraan = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.lblPadat = new System.Windows.Forms.Label();
-            this.lblRamai = new System.Windows.Forms.Label();
             this.lblSedang = new System.Windows.Forms.Label();
             this.lblSepi = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.lblKondisiJalan = new System.Windows.Forms.Label();
@@ -82,9 +80,13 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fuzzyMembershipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox11 = new System.Windows.Forms.PictureBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -103,6 +105,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -144,11 +147,9 @@
             this.groupBox1.Controls.Add(this.lblJumlahKendaraan);
             this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Controls.Add(this.lblPadat);
-            this.groupBox1.Controls.Add(this.lblRamai);
             this.groupBox1.Controls.Add(this.lblSedang);
             this.groupBox1.Controls.Add(this.lblSepi);
             this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label19);
             this.groupBox1.Controls.Add(this.label17);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.lblKondisiJalan);
@@ -184,19 +185,10 @@
             // 
             this.lblPadat.AutoSize = true;
             this.lblPadat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPadat.Location = new System.Drawing.Point(316, 91);
+            this.lblPadat.Location = new System.Drawing.Point(316, 65);
             this.lblPadat.Name = "lblPadat";
             this.lblPadat.Size = new System.Drawing.Size(0, 15);
             this.lblPadat.TabIndex = 11;
-            // 
-            // lblRamai
-            // 
-            this.lblRamai.AutoSize = true;
-            this.lblRamai.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRamai.Location = new System.Drawing.Point(316, 65);
-            this.lblRamai.Name = "lblRamai";
-            this.lblRamai.Size = new System.Drawing.Size(0, 15);
-            this.lblRamai.TabIndex = 10;
             // 
             // lblSedang
             // 
@@ -220,21 +212,11 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(258, 91);
+            this.label18.Location = new System.Drawing.Point(258, 65);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(52, 15);
             this.label18.TabIndex = 7;
             this.label18.Text = "Padat :";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(258, 65);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(57, 15);
-            this.label19.TabIndex = 6;
-            this.label19.Text = "Ramai :";
             // 
             // label17
             // 
@@ -429,6 +411,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.AutoScroll = true;
+            this.tabPage2.Controls.Add(this.label19);
+            this.tabPage2.Controls.Add(this.pictureBox11);
             this.tabPage2.Controls.Add(this.label11);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.label9);
@@ -505,7 +490,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(827, 19);
+            this.label6.Location = new System.Drawing.Point(1033, 19);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(47, 13);
             this.label6.TabIndex = 26;
@@ -514,11 +499,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(621, 19);
+            this.label5.Location = new System.Drawing.Point(827, 19);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 13);
+            this.label5.Size = new System.Drawing.Size(136, 13);
             this.label5.TabIndex = 25;
-            this.label5.Text = "Hough Transform";
+            this.label5.Text = "Hough Transform Selection";
             // 
             // label4
             // 
@@ -600,7 +585,7 @@
             // pictureBox5
             // 
             this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.Location = new System.Drawing.Point(830, 35);
+            this.pictureBox5.Location = new System.Drawing.Point(1036, 35);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(200, 170);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -610,7 +595,7 @@
             // pictureBox4
             // 
             this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox4.Location = new System.Drawing.Point(624, 35);
+            this.pictureBox4.Location = new System.Drawing.Point(830, 35);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(200, 170);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -663,6 +648,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fuzzyMembershipToolStripMenuItem,
+            this.openFileToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -674,6 +660,13 @@
             this.fuzzyMembershipToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.fuzzyMembershipToolStripMenuItem.Text = "Fuzzy Membership";
             this.fuzzyMembershipToolStripMenuItem.Click += new System.EventHandler(this.fuzzyMembershipToolStripMenuItem_Click);
+            // 
+            // openFileToolStripMenuItem
+            // 
+            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.openFileToolStripMenuItem.Text = "Open File";
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -696,6 +689,31 @@
             this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "Image files (*.jpg,*.png,*.tif,*.bmp,*.gif)|*.jpg;*.png;*.tif;*.bmp;*.gif";
+            this.openFileDialog1.RestoreDirectory = true;
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // pictureBox11
+            // 
+            this.pictureBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox11.Location = new System.Drawing.Point(624, 35);
+            this.pictureBox11.Name = "pictureBox11";
+            this.pictureBox11.Size = new System.Drawing.Size(200, 170);
+            this.pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox11.TabIndex = 32;
+            this.pictureBox11.TabStop = false;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(621, 19);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(89, 13);
+            this.label19.TabIndex = 33;
+            this.label19.Text = "Hough Transform";
             // 
             // Form1
             // 
@@ -731,6 +749,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -786,15 +805,17 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ToolStripMenuItem fuzzyMembershipToolStripMenuItem;
         private System.Windows.Forms.Label lblPadat;
-        private System.Windows.Forms.Label lblRamai;
         private System.Windows.Forms.Label lblSedang;
         private System.Windows.Forms.Label lblSepi;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label lblJumlahKendaraan;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox11;
+        private System.Windows.Forms.Label label19;
     }
 }
 
