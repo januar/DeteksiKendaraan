@@ -159,12 +159,16 @@ namespace DeteksiKendaraan
             HoughLineTransformation houghLineTransform = new HoughLineTransformation();
 
             Bitmap temp = AForge.Imaging.Image.Clone(image, PixelFormat.Format24bppRgb);
+            Bitmap clone = (Bitmap)temp.Clone();
             /// lock the source image
             BitmapData sourceData = temp.LockBits(
                 new Rectangle(0, 0, temp.Width, temp.Height),
                 ImageLockMode.ReadOnly, temp.PixelFormat);
             // binarize the image
             UnmanagedImage binarySource = filter.Apply(new UnmanagedImage(sourceData));
+            BitmapData cloneSourceData = clone.LockBits(
+                new Rectangle(0, 0, clone.Width, clone.Height),
+                ImageLockMode.ReadOnly, clone.PixelFormat);
             // apply Hough line transofrm
             houghLineTransform.ProcessImage(binarySource);
 
@@ -227,11 +231,18 @@ namespace DeteksiKendaraan
                 }
 
                 // draw line on the image
-                Drawing.Line(sourceData,
-                    new IntPoint((int)x0 + w2, h2 - (int)y0),
-                    new IntPoint((int)x1 + w2, h2 - (int)y1),
-                    Color.Red);
-                System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
+                if (icr <= 5)
+                {
+                    Drawing.Line(sourceData,
+                        new IntPoint((int)x0 + w2, h2 - (int)y0),
+                        new IntPoint((int)x1 + w2, h2 - (int)y1),
+                        Color.Red);
+                    System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
+                }
+                Drawing.Line(cloneSourceData,
+                        new IntPoint((int)x0 + w2, h2 - (int)y0),
+                        new IntPoint((int)x1 + w2, h2 - (int)y1),
+                        Color.Red);
 
                 // menentukan garis tepi yang digunakan pada jalan
                 if (line.Theta > 25 && line.Theta < 36) // garis tepi kiri jalan
@@ -249,11 +260,11 @@ namespace DeteksiKendaraan
                     rightLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
                 }
 
-                if (icr == 5)
-                {
-                    break;
-                }
-                icr++;
+                //if (icr == 5)
+                //{
+                //    break;
+                //}
+                //icr++;
             }
 
             System.Diagnostics.Debug.WriteLine("Found lines: " + houghLineTransform.LinesCount);
@@ -286,6 +297,10 @@ namespace DeteksiKendaraan
             // dispose temporary binary source image
             binarySource.Dispose();
             pictureBox4.Image = temp;
+
+            clone.UnlockBits(cloneSourceData);
+            pictureBox11.Image = clone;
+
 
             return roi;
         }
