@@ -231,40 +231,35 @@ namespace DeteksiKendaraan
                 }
 
                 // draw line on the image
-                if (icr <= 5)
+                if (icr <= 4)
                 {
                     Drawing.Line(sourceData,
                         new IntPoint((int)x0 + w2, h2 - (int)y0),
                         new IntPoint((int)x1 + w2, h2 - (int)y1),
                         Color.Red);
                     System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
+
+                    // menentukan garis tepi yang digunakan pada jalan
+                    if (line.Theta >= 25 && line.Theta < 36) // garis tepi kiri jalan
+                    {
+                        if (leftLine != null) continue;
+                        leftLine = new PointLine();
+                        leftLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0);
+                        leftLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
+                    }
+                    else if (line.Theta > 130) // garis tepi kanan jalan
+                    {
+                        if (rightLine != null) continue;
+                        rightLine = new PointLine();
+                        rightLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0 + 10);
+                        rightLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
+                    }
                 }
                 Drawing.Line(cloneSourceData,
                         new IntPoint((int)x0 + w2, h2 - (int)y0),
                         new IntPoint((int)x1 + w2, h2 - (int)y1),
                         Color.Red);
-
-                // menentukan garis tepi yang digunakan pada jalan
-                if (line.Theta > 25 && line.Theta < 36) // garis tepi kiri jalan
-                {
-                    if (leftLine != null) continue;
-                    leftLine = new PointLine();
-                    leftLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0);
-                    leftLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
-                }
-                else if (line.Theta > 130) // garis tepi kanan jalan
-                {
-                    if (rightLine != null) continue;
-                    rightLine = new PointLine();
-                    rightLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0 +10);
-                    rightLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
-                }
-
-                //if (icr == 5)
-                //{
-                //    break;
-                //}
-                //icr++;
+                icr++;
             }
 
             System.Diagnostics.Debug.WriteLine("Found lines: " + houghLineTransform.LinesCount);
