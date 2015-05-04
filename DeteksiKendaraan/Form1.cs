@@ -175,7 +175,6 @@ namespace DeteksiKendaraan
             // get lines using relative intensity
             HoughLine[] lines = houghLineTransform.GetLinesByRelativeIntensity(0.5);
 
-            int icr = 1;
             foreach (HoughLine line in lines)
             {
 
@@ -231,14 +230,8 @@ namespace DeteksiKendaraan
                 }
 
                 // draw line on the image
-                if (icr <= 4)
+                if (leftLine == null || rightLine == null)
                 {
-                    Drawing.Line(sourceData,
-                        new IntPoint((int)x0 + w2, h2 - (int)y0),
-                        new IntPoint((int)x1 + w2, h2 - (int)y1),
-                        Color.Red);
-                    System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
-
                     // menentukan garis tepi yang digunakan pada jalan
                     if (line.Theta >= 25 && line.Theta < 36) // garis tepi kiri jalan
                     {
@@ -246,6 +239,8 @@ namespace DeteksiKendaraan
                         leftLine = new PointLine();
                         leftLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0);
                         leftLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
+
+                        drawLine(ref sourceData, x0, x1, y0, y1, h2, w2);
                     }
                     else if (line.Theta > 130) // garis tepi kanan jalan
                     {
@@ -253,13 +248,11 @@ namespace DeteksiKendaraan
                         rightLine = new PointLine();
                         rightLine.Point1 = new IntPoint((int)x0 + w2, h2 - (int)y0 + 10);
                         rightLine.Point2 = new IntPoint((int)x1 + w2, h2 - (int)y1);
+
+                        drawLine(ref sourceData, x0, x1, y0, y1, h2, w2);
                     }
                 }
-                Drawing.Line(cloneSourceData,
-                        new IntPoint((int)x0 + w2, h2 - (int)y0),
-                        new IntPoint((int)x1 + w2, h2 - (int)y1),
-                        Color.Red);
-                icr++;
+                drawLine(ref cloneSourceData, x0, x1, y0, y1, h2, w2);
             }
 
             System.Diagnostics.Debug.WriteLine("Found lines: " + houghLineTransform.LinesCount);
@@ -298,6 +291,15 @@ namespace DeteksiKendaraan
 
 
             return roi;
+        }
+
+        private void drawLine(ref BitmapData sourceData, double x0, double x1, double y0, double y1, int h2, int w2)
+        {
+            Drawing.Line(sourceData,
+                        new IntPoint((int)x0 + w2, h2 - (int)y0),
+                        new IntPoint((int)x1 + w2, h2 - (int)y1),
+                        Color.Red);
+            System.Diagnostics.Debug.WriteLine(String.Format("Point ({0},{1}),({2},{3})", (int)x0 + w2, h2 - (int)y0, (int)x1 + w2, h2 - (int)y1));
         }
 
         /*
